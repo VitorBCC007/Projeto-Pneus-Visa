@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Itumbiara - Checklist de Limpeza</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: black;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-x: hidden; /* Evita rolagem horizontal */
+        }
+
+        .logo-container {
+            width: 100%;
+            background-color: #d3d3d3; /* Cinza claro */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 5px 20px;
+            box-sizing: border-box;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+        }
+
+        .logo-container img {
+            max-height: 80px;
+        }
+
+        .main-content {
+            width: 100%;
+            max-width: 800px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 120px;
+        }
+
+        .checklist-container {
+            background-color: #222;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
+            width: 100%;
+            text-align: center;
+            margin-top: 20px;
+            opacity: 0; /* Inicialmente invisível para efeito */
+            animation: fadeIn 1s forwards; /* Efeito de aparecimento */
+            display: none; /* Inicialmente não exibido */
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .checklist-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .checklist-header img {
+            max-height: 30px;
+            margin: 0 30px; /* Ajuste o espaçamento das logos */
+            opacity: 0; /* Inicialmente invisível para efeito */
+            animation: slideIn 1s forwards; /* Efeito de deslizamento */
+        }
+
+        .checklist-header img:first-of-type {
+            animation: slideInFromLeft 1s forwards;
+        }
+
+        .checklist-header img:last-of-type {
+            animation: slideInFromRight 1s forwards;
+        }
+
+        @keyframes slideInFromLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInFromRight {
+            from {
+                opacity: 0;
+                transform: translateX(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        h2 {
+            color: red;
+            margin: 0;
+        }
+
+        label {
+            color: #fff;
+            font-weight: bold;
+            display: block;
+            margin-bottom: 10px;
+            text-align: left;
+        }
+
+        input[type="text"],
+        input[type="date"],
+        input[type="email"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #444;
+            border-radius: 4px;
+            box-sizing: border-box;
+            background-color: black;
+            color: #fff;
+        }
+
+        input[type="text"]::placeholder,
+        input[type="date"]::placeholder,
+        input[type="email"]::placeholder {
+            color: #aaa;
+        }
+
+        .add-checklist-btn {
+            background-color: #444;
+            color: #fff;
+            border: none;
+            padding: 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+            width: 100%;
+            font-size: 16px;
+        }
+
+        .add-checklist-btn:hover {
+            background-color: #555;
+        }
+
+        input[type="submit"] {
+            width: 100%;
+            padding: 12px;
+            background-color: red;
+            color: black;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            text-transform: uppercase;
+            transition: background-color 0.3s ease;
+        }
+
+        input[type="submit"]:hover {
+            background-color: darkred;
+        }
+
+        input[type="submit"]:active {
+            background-color: crimson;
+        }
+
+        select {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #444;
+    border-radius: 4px;
+    background-color: black;
+    color: #fff;
+    box-sizing: border-box;
+    font-size: 1em; /* Ajusta o tamanho da fonte */
+}
+
+select option {
+    background-color: black;
+    color: #fff;
+}
+
+select option:hover {
+    background-color: #555; /* Cor de fundo ao passar o mouse */
+}
+
+
+        .message-box {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: green;
+    color: #fff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    display: none;
+    text-align: center; /* Centraliza o texto */
+    width: 80%; /* Ajusta a largura para não ficar muito larga */
+    max-width: 400px; /* Define uma largura máxima para a mensagem */
+}
+
+.message-box .close-btn {
+    background: none;
+    border: none;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.message-box .close-btn:hover {
+    color: #ddd;
+}
+
+.top-buttons {
+    width: 100%;
+    background-color: #444; /* Cor de fundo dos botões */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    box-sizing: border-box;
+    position: absolute;
+    top: 90px; /* Ajuste para posicionar abaixo da logo */
+    left: 0;
+    z-index: 1000;
+}
+
+.top-buttons button {
+    background-color: #555;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    margin: 0 5px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.top-buttons button:hover {
+    background-color: #666;
+}
+
+/* Media Queries para dispositivos móveis */
+@media (max-width: 600px) {
+    .logo-container img {
+        max-height: 50px; /* Reduz o tamanho da logo para dispositivos móveis */
+    }
+
+    .main-content {
+        margin-top: 80px; /* Ajusta o espaço acima do conteúdo principal para não sobrepor a logo */
+        padding: 10px; /* Ajusta o padding para melhor visualização em telas pequenas */
+        position: relative; /* Garante que o botão de adicionar cadastro não seja sobreposto */
+        z-index: 1; /* Define o z-index para garantir que o botão esteja acima dos outros elementos */
+    }
+
+    .checklist-header img {
+        max-height: 20px; /* Reduz o tamanho das imagens no cabeçalho */
+        margin: 0 10px; /* Ajusta o espaçamento das imagens */
+    }
+
+    .add-checklist-btn {
+        font-size: 16px; /* Ajusta o tamanho da fonte do botão */
+        padding: 12px; /* Ajusta o padding para facilitar o clique em dispositivos móveis */
+        width: 100%; /* Garante que o botão ocupe toda a largura disponível */
+        position: relative; /* Garante que o botão seja posicionado corretamente */
+        z-index: 10; /* Garante que o botão fique acima de outros elementos */
+    }
+
+    input[type="submit"] {
+        font-size: 16px; /* Ajusta o tamanho da fonte do botão de envio */
+        padding: 12px; /* Ajusta o padding para facilitar o clique */
+    }
+
+    .top-buttons {
+        flex-direction: column; /* Alinha os botões verticalmente */
+        top: 60px; /* Ajusta o espaço superior para dispositivos móveis */
+        position: relative; /* Garante que os botões não sobreponham outros elementos */
+        z-index: 5; /* Define o z-index para garantir que os botões fiquem abaixo do botão de adicionar */
+    }
+
+    .top-buttons button {
+        width: 100%; /* Botões ocupam a largura total da tela */
+        margin: 5px 0; /* Ajusta o espaçamento entre os botões */
+    }
+
+    .message-box {
+        width: 90%; /* Ajusta a largura da caixa de mensagem para dispositivos móveis */
+        max-width: 360px; /* Define uma largura máxima para a caixa de mensagem */
+    }
+}
+
+
+    </style>
+</head>
+<body>
+    <div class="logo-container">
+        <img src="{{ url_for('static', filename='logo1.png') }}" alt="Logo da Empresa Centro">
+    </div>
+    <div class="top-buttons">
+        <button onclick="window.location.href='http://192.168.100.30:5000/itumbiara'">itumbiara</button>
+        <button>Edeia</button>
+        <button>RioVerde</button>
+        <button>Goiatuba</button>
+    </div>
+    
+    <div class="main-content">
+        <button class="add-checklist-btn" onclick="toggleChecklistForm()">+ Adicionar Cadastro</button>
+        <div id="checklistsContainer">
+            <!-- Os checklists aparecerão aqui -->
+        </div>
+    </div>
+
+    
+    <!-- Caixa de mensagem -->
+    <div id="messageBox" class="message-box">
+        <button class="close-btn" onclick="closeMessageBox()">×</button>
+        <p id="messageText"></p>
+    </div>
+
+    <script>
+        var checklistFormVisible = false;
+
+        function toggleChecklistForm() {
+            var checklistsContainer = document.getElementById('checklistsContainer');
+            var checklistContainer = document.querySelector('.checklist-container');
+
+            if (checklistFormVisible) {
+                // Se o formulário já está visível, oculta-o
+                if (checklistContainer) {
+                    checklistContainer.style.display = 'none';
+                }
+            } else {
+                // Se o formulário não está visível, exibe-o
+                if (!checklistContainer) {
+                    checklistContainer = document.createElement('div');
+                    checklistContainer.className = 'checklist-container';
+                    checklistContainer.innerHTML = `
+                        <div class="checklist-header">
+                            <img src="{{ url_for('static', filename='logo2.png') }}" alt="Logo 2">
+                            <h2>Cadastro de Checklist</h2>
+                            <img src="{{ url_for('static', filename='logo3.png') }}" alt="Logo 3">
+                        </div>
+                        <form method="POST" action="{{ url_for('submit_checklist') }}">
+                            <label for="responsible">Responsável:</label>
+                            <input type="text" id="responsible" name="responsible" placeholder="Digite o nome do responsável">
+
+                            <label for="username">Usuário:</label>
+                            <input type="text" id="username" name="username" placeholder="Digite o nome de usuário">
+
+                            <label for="password">Senha:</label>
+                            <input type="text" id="password" name="password" placeholder="Digite a senha">
+
+                            <label for="email">E-mail (opcional):</label>
+                            <input type="email" id="email" name="email" placeholder="Digite o e-mail">
+
+                            <label for="last-cleaning">Data da Última Limpeza:</label>
+                            <input type="date" id="last-cleaning" name="last_cleaning">
+
+                            <label for="cidade">Cidade:</label>
+                            <select id="cidade" name="cidade">
+                                <option value="itumbiara">itumbiara</option>
+                                <option value="Edeia">Edeia</option>
+                                <option value="RioVerde">Rio Verde</option>
+                                <option value="Goiatuba">Goiatuba</option>
+                            </select>
+
+                            <input type="submit" value="Criar Cadastro">
+                        </form>
+                    `;
+                    checklistsContainer.appendChild(checklistContainer);
+                }
+                checklistContainer.style.display = 'block';
+            }
+
+            checklistFormVisible = !checklistFormVisible;
+        }
+
+        function showMessage(message) {
+            var messageBox = document.getElementById('messageBox');
+            var messageText = document.getElementById('messageText');
+            messageText.textContent = message;
+            messageBox.style.display = 'block';
+        }
+
+        function closeMessageBox() {
+            var messageBox = document.getElementById('messageBox');
+            messageBox.style.display = 'none';
+        }
+
+        window.onload = function() {
+    // Verifica se a variável message não está vazia ou é igual a 'None'
+    var message = '{{ message|default("") }}';
+    if (message && message !== 'None') {
+        showMessage(message);
+    }
+};
+
+    </script>
+</body>
+</html>
