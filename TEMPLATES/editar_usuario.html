@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editar Usuário</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: black;
+            margin: 0;
+            padding: 0;
+            color: #fff;
+        }
+
+        .logo-container {
+            width: 100%;
+            background-color: #d3d3d3;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+            box-sizing: border-box;
+            position: relative;
+            top: 0;
+            z-index: 10;
+        }
+
+        .logo-container img {
+            max-height: 80px;
+        }
+
+        .content-container {
+            padding: 20px;
+            margin: 60px auto;
+            background-color: #222;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 600px;
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
+        }
+
+        h1 {
+            color: red;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        label {
+            color: #fff;
+            font-weight: bold;
+            display: block;
+            margin-bottom: 10px;
+        }
+
+        input[type="text"],
+        input[type="password"],
+        input[type="email"],
+        input[type="date"],
+        select {
+            width: calc(100% - 22px);
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #444;
+            border-radius: 4px;
+            box-sizing: border-box;
+            background-color: black;
+            color: #fff;
+        }
+
+        input[type="submit"] {
+            width: 100%;
+            padding: 12px;
+            background-color: red;
+            color: black;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            text-transform: uppercase;
+            transition: background-color 0.3s ease;
+        }
+
+        input[type="submit"]:hover {
+            background-color: darkred;
+        }
+
+        input[type="submit"]:active {
+            background-color: crimson;
+        }
+    </style>
+</head>
+<body>
+    <div class="logo-container">
+        <img src="{{ url_for('static', filename='logo1.png') }}" alt="Logo da Empresa Centro">
+    </div>
+    <div class="content-container">
+        <h1>Editar Usuário</h1>
+        <form action="{{ url_for('editar_usuario', id=usuario._id) }}" method="POST">
+            <label for="responsible">Nome:</label>
+            <input type="text" id="responsible" name="responsible" value="{{ usuario.responsible }}" required>
+            <label for="username">Usuário:</label>
+            <input type="text" id="username" name="username" value="{{ usuario.username }}" required>
+            <label for="password">Senha:</label>
+            <input type="password" id="password" name="password" value="{{ usuario.password }}" required>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" value="{{ usuario.email }}" required>
+            <label for="last_cleaning">Data da Última Limpeza:</label>
+            <input type="date" id="last_cleaning" name="last_cleaning" value="{{ usuario.last_cleaning }}" required>
+            <label for="cidade">Cidade:</label>
+            <select id="cidade" name="cidade" required>
+                <option value="Itumbiara" {% if usuario.cidade == 'Itumbiara' %}selected{% endif %}>Itumbiara</option>
+                <option value="Edeia" {% if usuario.cidade == 'Edeia' %}selected{% endif %}>Edeia</option>
+                <option value="RioVerde" {% if usuario.cidade == 'RioVerde' %}selected{% endif %}>Rio Verde</option>
+                <option value="Goiatuba" {% if usuario.cidade == 'Goiatuba' %}selected{% endif %}>Goiatuba</option>
+            </select>
+            <input type="submit" value="Atualizar">
+        </form>
+    </div>
+</body>
+</html>
