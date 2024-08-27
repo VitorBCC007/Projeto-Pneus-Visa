@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Estoque Rio Verde</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #222;
+            color: #fff;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            box-sizing: border-box;
+        }
+
+        .logo-container {
+            width: 100%;
+            background-color: #d3d3d3; /* Cinza claro */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px 0;
+            position: absolute;
+            top: 0;
+            box-sizing: border-box;
+        }
+
+        .logo-container img {
+            max-height: 60px;
+        }
+
+        .content-container {
+            background-color: #333;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+            margin-top: 100px;
+            opacity: 0;
+            animation: fadeIn 1s forwards;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            color: red;
+            margin-bottom: 20px;
+            font-size: 1.5em;
+        }
+
+        label {
+            font-weight: bold;
+            text-align: left;
+            margin-bottom: 10px;
+            display: block;
+            color: #fff;
+        }
+
+        .quantity-container {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .quantity-container button {
+            width: 40px;
+            height: 40px;
+            background-color: red;
+            color: black;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 1.2em;
+            transition: background-color 0.3s ease;
+        }
+
+        .quantity-container button:hover {
+            background-color: darkred;
+        }
+
+        .quantity-container button:active {
+            background-color: crimson;
+        }
+
+        .quantity-container input {
+            width: 100%;
+            max-width: 100px;
+            padding: 10px;
+            border: 1px solid #444;
+            border-radius: 4px;
+            box-sizing: border-box;
+            background-color: black;
+            color: #fff;
+            text-align: center;
+            font-size: 1em;
+            margin: 0 10px;
+        }
+
+        button[type="submit"] {
+            width: 100%;
+            padding: 12px;
+            background-color: red;
+            color: black;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            text-transform: uppercase;
+            transition: background-color 0.3s ease;
+            font-size: 1em;
+        }
+
+        button[type="submit"]:hover {
+            background-color: darkred;
+        }
+
+        button[type="submit"]:active {
+            background-color: crimson;
+        }
+
+        h2 {
+            margin-top: 30px;
+            margin-bottom: 10px;
+            color: #fff;
+            font-size: 1.2em;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        li {
+            background-color: #444;
+            margin: 10px 0;
+            padding: 10px;
+            border-radius: 4px;
+            font-size: 1em;
+        }
+
+        @media (min-width: 600px) {
+            .content-container {
+                width: 80%;
+                max-width: 500px;
+            }
+
+            h1 {
+                font-size: 1.8em;
+            }
+
+            label,
+            input[type="text"],
+            .quantity-container button,
+            button[type="submit"],
+            li {
+                font-size: 1.1em;
+            }
+
+            h2 {
+                font-size: 1.4em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="logo-container">
+        <img src="{{ url_for('static', filename='logo1.png') }}" alt="Logo do Projeto">
+    </div>
+    <div class="content-container">
+        <h1>Estoque de Tonners - Itumbiara</h1>
+        <form action="{{ url_for('estoque_itumbiara_page') }}" method="POST">
+            <label for="modelo_tonner">Modelo do Tonner:</label>
+            <input type="text" id="modelo_tonner" name="modelo_tonner" required>
+            
+            <label for="quantidade">Quantidade:</label>
+            <div class="quantity-container">
+                <button type="button" onclick="decrement()">-</button>
+                <input type="number" id="quantidade" name="quantidade" min="0" value="0" required>
+                <button type="button" onclick="increment()">+</button>
+            </div>
+            
+            <button type="submit">Adicionar ao Estoque</button>
+        </form>
+        
+        <h2>Estoque Atual</h2>
+        <ul>
+            {% for tonner in tonners %}
+            <li>{{ tonner['modelo_tonner'] }}: {{ tonner['quantidade'] }} unidade(s)</li>
+            {% endfor %}
+        </ul>
+    </div>
+    <script>
+        function increment() {
+            const quantityInput = document.getElementById('quantidade');
+            quantityInput.value = parseInt(quantityInput.value) + 1;
+        }
+
+        function decrement() {
+            const quantityInput = document.getElementById('quantidade');
+            if (parseInt(quantityInput.value) > 0) {
+                quantityInput.value = parseInt(quantityInput.value) - 1;
+            }
+        }
+    </script>
+</body>
+</html>
