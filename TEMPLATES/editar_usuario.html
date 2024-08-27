@@ -109,10 +109,10 @@
             <input type="date" id="last_cleaning" name="last_cleaning" value="{{ usuario.last_cleaning }}" required>
             <label for="cidade">Cidade:</label>
             <select id="cidade" name="cidade" required>
-                <option value="Itumbiara" {% if usuario.cidade == 'Itumbiara' %}selected{% endif %}>Itumbiara</option>
-                <option value="Edeia" {% if usuario.cidade == 'Edeia' %}selected{% endif %}>Edeia</option>
-                <option value="RioVerde" {% if usuario.cidade == 'RioVerde' %}selected{% endif %}>Rio Verde</option>
-                <option value="Goiatuba" {% if usuario.cidade == 'Goiatuba' %}selected{% endif %}>Goiatuba</option>
+                <option value="itumbiara" {% if usuario.cidade == 'Itumbiara' %}selected{% endif %}>itumbiara</option>      <!-- SE TIVER MAIUSCULO MUDAR PARA MINUSCULO  -->
+                <option value="edeia" {% if usuario.cidade == 'edeia' %}selected{% endif %}>edeia</option>
+                <option value="rioverde" {% if usuario.cidade == 'rioverde' %}selected{% endif %}>rioverde</option>
+                <option value="goiatuba" {% if usuario.cidade == 'goiatuba' %}selected{% endif %}>goiatuba</option>
             </select>
             <input type="submit" value="Atualizar">
         </form>
