@@ -316,6 +316,30 @@ select option:hover {
     }
 }
 
+.styled-button {
+    display: inline-block;
+    padding: 12px 25px;
+    background-color: red;
+    color: white;
+    text-align: center;
+    text-decoration: none;
+    border-radius: 5px;
+    font-size: 16px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.styled-button:hover {
+    background-color: darkred;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+.styled-button:active {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+}
+
 
     </style>
 </head>
@@ -328,6 +352,7 @@ select option:hover {
         <button onclick="window.location.href='http://192.168.100.30:5000/edeia'">edeia</button>
         <button onclick="window.location.href='http://192.168.100.30:5000/rioverde'">rioverde</button>
         <button onclick="window.location.href='http://192.168.100.30:5000/goiatuba'">goiatuba</button>
+
 
 
     </div>
@@ -345,6 +370,7 @@ select option:hover {
         <button class="close-btn" onclick="closeMessageBox()">×</button>
         <p id="messageText"></p>
     </div>
+    <a href="http://192.168.100.30:5000/estoques" class="styled-button">Estoques</a>
 
     <script>
         var checklistFormVisible = false;
